@@ -407,26 +407,28 @@ Pada kasus pengujian yang telah saya lakukan, saya akan menilai apakah mereka me
 ## Screenshoot task and Conclusion
 
 JMeter Resuls in table for all_student
-![JMeter Resuls in table for all_student](screenshoot\test_all_student.png)
+<img src="screenshoot\test_all_student.png" alt="JMeter Resuls in table for all_student">
 after optimization
-![after optimization](screenshoot\optimize_all_student.png)
+<img src="screenshoot\optimize_all_student.png" alt="after optimization">
 
 JMeter Resuls in table for all_student_name
-![JMeter Resuls in table for all_student_name](screenshoot\test_all_student_name.png)
+<img src="screenshoot\test_all_student_name.png" alt="JMeter Resuls in table for test_all_student_name">
 after optimization
-![after optimization](screenshoot\optimize_all_student_name.png)
+<img src="screenshoot\optimize_all_student_name.png" alt="after optimization">
 
 JMeter Resuls in table for highest_gpa
-![JMeter Resuls in table for highest_gpa](screenshoot\test_highest_gpa.png)
+<img src="screenshoot\test_highest_gpa.png" alt="JMeter Resuls in table for test_highest_gpa">
 after optimization
-![after optimization](screenshoot\optimize_highest_gpa.png)
+<img src="screenshoot\optimize_highest_gpa.png" alt="after optimization">
 
 Test log for all_student
-![Test log for all_student](screenshoot\log_all_student.png)
+<img src="screenshoot\log_all_student.png" alt="Test log for all_student">
+
 Test log for all_student_name
-![Test log for all_student_name](screenshoot\log_all_student_name.png)
+<img src="screenshoot\log_all_student_name.png" alt="Test log for log_all_student_name">
+
 Test log for highest_gpa
-![Test log for highest_gpa](screenshoot\log_highest_gpa.png)
+<img src="screenshoot\log_highest_gpa.png" alt="Test log for log_highest_gpa">
 
 
 **Kita dapat melihat perbedaan pada sample time(ms) yang menunjukkan waktu yang diperlukan dalam menjalankan program tersebut. Pada hal tersebut terdapat **peningkatan signifikan dalam kinerja aplikasi setelah menerapkan optimisasi yang diidentifikasi melalui profiling melalui intellij dan optimasi**. Waktu respon rata-rata menurun dari rata-rata 160000 ms pada all_student menjadi 3000 ms pada all_student, hal ini berlaku pada kedua test lainnya all_student_name dan highest_gpa (walaupun tidak teralu terlihat tetapi jika banyak data akan terlihat total costnya), menunjukkan waktu respon yang lebih cepat bagi pengguna.**
