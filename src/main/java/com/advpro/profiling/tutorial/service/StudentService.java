@@ -43,12 +43,7 @@ public class StudentService {
     }
 
     public Optional<Student> findStudentWithHighestGpa() {
-        // from 308 ms to 238 ms >20%
-        // Fetch all students from the student repository
-        List<Student> students = studentRepository.findAll();
-
-        // Use Java streams to find the student with the highest GPA
-        return students.stream()
+        return studentRepository.findAll().parallelStream()
                 .max(Comparator.comparingDouble(Student::getGpa));
     }
 
