@@ -7,10 +7,7 @@ import com.advpro.profiling.tutorial.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,16 +43,13 @@ public class StudentService {
     }
 
     public Optional<Student> findStudentWithHighestGpa() {
+        // from 308 ms to 238 ms >20%
+        // Fetch all students from the student repository
         List<Student> students = studentRepository.findAll();
-        Student highestGpaStudent = null;
-        double highestGpa = 0.0;
-        for (Student student : students) {
-            if (student.getGpa() > highestGpa) {
-                highestGpa = student.getGpa();
-                highestGpaStudent = student;
-            }
-        }
-        return Optional.ofNullable(highestGpaStudent);
+
+        // Use Java streams to find the student with the highest GPA
+        return students.stream()
+                .max(Comparator.comparingDouble(Student::getGpa));
     }
 
     public String joinStudentNames() {
