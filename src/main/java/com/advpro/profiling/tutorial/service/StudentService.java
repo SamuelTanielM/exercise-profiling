@@ -27,6 +27,7 @@ public class StudentService {
     private StudentCourseRepository studentCourseRepository;
 
     public List<StudentCourse> getAllStudentsWithCourses() {
+        //using map and not loop n^2 we can achieve from 80,000ms to 356 ms
         List<StudentCourse> studentCourses = new ArrayList<>();
         List<Student> students = studentRepository.findAll();
         Map<Long, Student> studentMap = students.stream()
@@ -58,12 +59,18 @@ public class StudentService {
     }
 
     public String joinStudentNames() {
+        // According to the latest lecture i learn about stringbuilder this cut it from 2s to 336ms
         List<Student> students = studentRepository.findAll();
-        String result = "";
+        StringBuilder resultBuilder = new StringBuilder();
+
+        // Iterate over the list of students
         for (Student student : students) {
-            result += student.getName() + ", ";
+            // Append the name of each student to the StringBuilder
+            resultBuilder.append(student.getName()).append(", ");
         }
-        return result.substring(0, result.length() - 2);
+
+        // Remove the trailing ", " and return the resulting string
+        return resultBuilder.substring(0, resultBuilder.length() - 2);
     }
 }
 
