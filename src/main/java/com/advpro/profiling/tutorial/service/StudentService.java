@@ -43,9 +43,10 @@ public class StudentService {
     }
 
     public Optional<Student> findStudentWithHighestGpa() {
-        return studentRepository.findAll().parallelStream()
-                .max(Comparator.comparingDouble(Student::getGpa));
+        Student highestGpaStudent = studentRepository.getStudentWithHighestGpa().get(0);
+        return Optional.ofNullable(highestGpaStudent);
     }
+
 
     public String joinStudentNames() {
         // According to the latest lecture i learn about stringbuilder this cut it from 2s to 336ms
