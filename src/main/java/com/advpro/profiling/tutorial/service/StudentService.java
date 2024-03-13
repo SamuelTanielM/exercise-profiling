@@ -7,9 +7,9 @@ import com.advpro.profiling.tutorial.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author muhammad.khadafi
@@ -24,40 +24,43 @@ public class StudentService {
     private StudentCourseRepository studentCourseRepository;
 
     public List<StudentCourse> getAllStudentsWithCourses() {
-        List<Student> students = studentRepository.findAll();
+        //using map and not loop n^2 we can achieve from 80,000ms to 356 ms
         List<StudentCourse> studentCourses = new ArrayList<>();
-        for (Student student : students) {
-            List<StudentCourse> studentCoursesByStudent = studentCourseRepository.findByStudentId(student.getId());
-            for (StudentCourse studentCourseByStudent : studentCoursesByStudent) {
-                StudentCourse studentCourse = new StudentCourse();
-                studentCourse.setStudent(student);
-                studentCourse.setCourse(studentCourseByStudent.getCourse());
-                studentCourses.add(studentCourse);
+        List<Student> students = studentRepository.findAll();
+        Map<Long, Student> studentMap = students.stream()
+                .collect(Collectors.toMap(Student::getId, Function.identity()));
+        List<StudentCourse> allStudentCourses = studentCourseRepository.findAll();
+        allStudentCourses.forEach(studentCourse -> {
+            Student student = studentMap.get(studentCourse.getStudent().getId());
+            if (student != null) {
+                StudentCourse newStudentCourse = new StudentCourse();
+                newStudentCourse.setStudent(student);
+                newStudentCourse.setCourse(studentCourse.getCourse());
+                studentCourses.add(newStudentCourse);
             }
-        }
+        });
         return studentCourses;
     }
 
     public Optional<Student> findStudentWithHighestGpa() {
-        List<Student> students = studentRepository.findAll();
-        Student highestGpaStudent = null;
-        double highestGpa = 0.0;
-        for (Student student : students) {
-            if (student.getGpa() > highestGpa) {
-                highestGpa = student.getGpa();
-                highestGpaStudent = student;
-            }
-        }
+        Student highestGpaStudent = studentRepository.getStudentWithHighestGpa().get(0);
         return Optional.ofNullable(highestGpaStudent);
     }
 
+
     public String joinStudentNames() {
+        // According to the latest lecture i learn about stringbuilder this cut it from 2s to 336ms
         List<Student> students = studentRepository.findAll();
-        String result = "";
+        StringBuilder resultBuilder = new StringBuilder();
+
+        // Iterate over the list of students
         for (Student student : students) {
-            result += student.getName() + ", ";
+            // Append the name of each student to the StringBuilder
+            resultBuilder.append(student.getName()).append(", ");
         }
-        return result.substring(0, result.length() - 2);
+
+        // Remove the trailing ", " and return the resulting string
+        return resultBuilder.substring(0, resultBuilder.length() - 2);
     }
 }
 
